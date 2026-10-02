@@ -109,19 +109,16 @@ public record GappedGridSquareSpiral(int xSize,
     }
 
     @Override
-    public DensityFunction mapAll(DensityFunction.Visitor visitor) {
+    public DensityFunction mapChildren(DensityFunction.Visitor visitor) {
 
         // `.mapAll()` cannot be applied to `gridCellArgs` or else, it will lag out Minecraft
 
-        return visitor.apply(
-                new GappedGridSquareSpiral(
-                        xSize,
-                        zSize,
-                        spacing,
-                        gridCellArgs,
-                        oobArg.mapAll(visitor)
-
-                )
+        return new GappedGridSquareSpiral(
+                xSize,
+                zSize,
+                spacing,
+                gridCellArgs,
+                oobArg.mapAll(visitor)
         );
     }
 
