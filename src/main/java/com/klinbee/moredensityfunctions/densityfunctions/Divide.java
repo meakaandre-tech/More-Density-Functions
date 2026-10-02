@@ -13,8 +13,8 @@ public record Divide(DensityFunction numerator,
     private static final MapCodec<Divide> MAP_CODEC =
             RecordCodecBuilder.mapCodec((instance) ->
                     instance.group(
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("numerator").forGetter(Divide::numerator),
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("denominator").forGetter(Divide::denominator)
+                            DensityFunction.CODEC.fieldOf("numerator").forGetter(Divide::numerator),
+                            DensityFunction.CODEC.fieldOf("denominator").forGetter(Divide::denominator)
                     ).apply(instance, Divide::new)
             );
 
@@ -35,13 +35,11 @@ public record Divide(DensityFunction numerator,
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new Divide(
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new Divide(
                         numerator.mapAll(visitor),
                         denominator.mapAll(visitor)
-                )
-        );
+                );
     }
 
     @Override

@@ -13,8 +13,8 @@ public record Subtract(DensityFunction arg1,
     private static final MapCodec<Subtract> MAP_CODEC =
             RecordCodecBuilder.mapCodec((instance) ->
                     instance.group(
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument1").forGetter(Subtract::arg1),
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument2").forGetter(Subtract::arg2)
+                            DensityFunction.CODEC.fieldOf("argument1").forGetter(Subtract::arg1),
+                            DensityFunction.CODEC.fieldOf("argument2").forGetter(Subtract::arg2)
                     ).apply(instance, Subtract::new)
             );
 
@@ -31,13 +31,11 @@ public record Subtract(DensityFunction arg1,
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new Subtract(
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new Subtract(
                         arg1.mapAll(visitor),
                         arg2.mapAll(visitor)
-                )
-        );
+                );
     }
 
     @Override

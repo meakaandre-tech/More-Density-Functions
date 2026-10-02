@@ -347,9 +347,8 @@ public record VoronoiCells(RandomSampler randomSampler,
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new VoronoiCells(
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new VoronoiCells(
                         randomSampler,
                         sizeX,
                         sizeY,
@@ -360,8 +359,7 @@ public record VoronoiCells(RandomSampler randomSampler,
                         neighbors,
                         extraOctaves,
                         salt
-                )
-        );
+                );
     }
 
     // TODO: I'm about to have to change so many density functions...

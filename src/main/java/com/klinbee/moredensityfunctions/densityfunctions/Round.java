@@ -13,7 +13,7 @@ public record Round(DensityFunction arg)
     private static final MapCodec<Round> MAP_CODEC =
             RecordCodecBuilder.mapCodec((instance) ->
                     instance.group(
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument").forGetter(Round::arg)
+                            DensityFunction.CODEC.fieldOf("argument").forGetter(Round::arg)
                     ).apply(instance, Round::new)
             );
 
@@ -34,10 +34,8 @@ public record Round(DensityFunction arg)
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new Round(arg.mapAll(visitor))
-        );
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new Round(arg.mapAll(visitor));
     }
 
     @Override

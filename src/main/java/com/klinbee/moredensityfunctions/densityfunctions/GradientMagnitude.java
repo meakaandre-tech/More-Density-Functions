@@ -18,7 +18,7 @@ public record GradientMagnitude(DensityFunction arg,
     public static final MapCodec<GradientMagnitude> MAP_CODEC =
             RecordCodecBuilder.mapCodec(instance ->
                     instance.group(
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument").forGetter(GradientMagnitude::arg),
+                            DensityFunction.CODEC.fieldOf("argument").forGetter(GradientMagnitude::arg),
                             ExtraCodecs.NON_NEGATIVE_INT.fieldOf("step_x").orElse(0).forGetter(GradientMagnitude::stepX),
                             ExtraCodecs.NON_NEGATIVE_INT.fieldOf("step_y").orElse(0).forGetter(GradientMagnitude::stepY),
                             ExtraCodecs.NON_NEGATIVE_INT.fieldOf("step_z").orElse(0).forGetter(GradientMagnitude::stepZ)
@@ -71,15 +71,13 @@ public record GradientMagnitude(DensityFunction arg,
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new GradientMagnitude(
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new GradientMagnitude(
                         arg.mapAll(visitor),
                         stepX,
                         stepY,
                         stepZ
-                )
-        );
+                );
     }
 
     @Override

@@ -13,7 +13,7 @@ public record HyperbolicSine(DensityFunction arg)
     private static final MapCodec<HyperbolicSine> MAP_CODEC =
             RecordCodecBuilder.mapCodec((instance) ->
                     instance.group(
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument").forGetter(HyperbolicSine::arg)
+                            DensityFunction.CODEC.fieldOf("argument").forGetter(HyperbolicSine::arg)
                     ).apply(instance, HyperbolicSine::new)
             );
 
@@ -34,10 +34,8 @@ public record HyperbolicSine(DensityFunction arg)
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new HyperbolicSine(arg.mapAll(visitor))
-        );
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new HyperbolicSine(arg.mapAll(visitor));
     }
 
     @Override

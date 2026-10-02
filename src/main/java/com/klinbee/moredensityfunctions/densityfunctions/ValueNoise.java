@@ -140,9 +140,8 @@ public record ValueNoise(RandomSampler randomSampler,
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new ValueNoise(
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new ValueNoise(
                         randomSampler,
                         sizeX,
                         sizeY,
@@ -150,8 +149,7 @@ public record ValueNoise(RandomSampler randomSampler,
                         interpolation,
                         extraOctaves,
                         salt
-                )
-        );
+                );
     }
 
     // Add 1 to take the original in account

@@ -38,15 +38,13 @@ public record XClampedGradient(int fromX,
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new XClampedGradient(
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new XClampedGradient(
                         fromX,
                         toX,
                         fromValue,
                         toValue
-                )
-        );
+                );
     }
 
     @Override

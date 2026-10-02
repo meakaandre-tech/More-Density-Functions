@@ -38,15 +38,13 @@ public record ZClampedGradient(int fromZ,
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new ZClampedGradient(
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new ZClampedGradient(
                         fromZ,
                         toZ,
                         fromValue,
                         toValue
-                )
-        );
+                );
     }
 
     @Override

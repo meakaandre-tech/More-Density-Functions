@@ -24,10 +24,8 @@ public record PolarCoords()
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new PolarCoords()
-        );
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new PolarCoords();
     }
 
     @Override

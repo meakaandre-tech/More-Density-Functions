@@ -338,9 +338,8 @@ public record WorleyNoise(int sizeX,
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new WorleyNoise(
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new WorleyNoise(
                         sizeX,
                         sizeY,
                         sizeZ,
@@ -352,8 +351,7 @@ public record WorleyNoise(int sizeX,
                         invertValue,
                         extraOctaves,
                         salt
-                )
-        );
+                );
     }
 
     // Due to `DistanceMetric`, `DistanceType`, and `jitter`, these are conservative estimates

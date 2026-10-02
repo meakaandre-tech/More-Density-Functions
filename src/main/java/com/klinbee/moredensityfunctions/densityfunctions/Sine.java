@@ -13,7 +13,7 @@ public record Sine(DensityFunction arg)
     private static final MapCodec<Sine> MAP_CODEC =
             RecordCodecBuilder.mapCodec((instance) ->
                     instance.group(
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument").forGetter(Sine::arg)
+                            DensityFunction.CODEC.fieldOf("argument").forGetter(Sine::arg)
                     ).apply(instance, Sine::new)
             );
 
@@ -34,10 +34,8 @@ public record Sine(DensityFunction arg)
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new Sine(arg.mapAll(visitor))
-        );
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new Sine(arg.mapAll(visitor));
     }
 
     // Due to periodic nature, I'm using global min/max

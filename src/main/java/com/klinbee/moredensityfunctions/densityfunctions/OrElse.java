@@ -13,8 +13,8 @@ public record OrElse(DensityFunction arg,
     private static final MapCodec<OrElse> MAP_CODEC =
             RecordCodecBuilder.mapCodec((instance) ->
                     instance.group(
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument").forGetter(OrElse::arg),
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("fallback").forGetter(OrElse::fallback)
+                            DensityFunction.CODEC.fieldOf("argument").forGetter(OrElse::arg),
+                            DensityFunction.CODEC.fieldOf("fallback").forGetter(OrElse::fallback)
                     ).apply(instance, OrElse::new)
             );
 
@@ -34,13 +34,11 @@ public record OrElse(DensityFunction arg,
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new OrElse(
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new OrElse(
                         arg.mapAll(visitor),
                         fallback.mapAll(visitor)
-                )
-        );
+                );
     }
 
     @Override

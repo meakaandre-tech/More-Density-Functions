@@ -14,7 +14,7 @@ public record HyperbolicCosine(DensityFunction arg)
     private static final MapCodec<HyperbolicCosine> MAP_CODEC =
             RecordCodecBuilder.mapCodec((instance) ->
                     instance.group(
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument").forGetter(HyperbolicCosine::arg)
+                            DensityFunction.CODEC.fieldOf("argument").forGetter(HyperbolicCosine::arg)
                     ).apply(instance, HyperbolicCosine::new)
             );
 
@@ -35,10 +35,8 @@ public record HyperbolicCosine(DensityFunction arg)
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new HyperbolicCosine(arg.mapAll(visitor))
-        );
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new HyperbolicCosine(arg.mapAll(visitor));
     }
 
     @Override

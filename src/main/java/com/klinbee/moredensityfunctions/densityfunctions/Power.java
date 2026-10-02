@@ -14,8 +14,8 @@ public record Power(DensityFunction base,
     private static final MapCodec<Power> MAP_CODEC =
             RecordCodecBuilder.mapCodec((instance) ->
                     instance.group(
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("base").forGetter(Power::base),
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("exponent").forGetter(Power::exponent)
+                            DensityFunction.CODEC.fieldOf("base").forGetter(Power::base),
+                            DensityFunction.CODEC.fieldOf("exponent").forGetter(Power::exponent)
                     ).apply(instance, Power::new)
             );
 
@@ -32,13 +32,11 @@ public record Power(DensityFunction base,
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new Power(
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new Power(
                         base.mapAll(visitor),
                         exponent.mapAll(visitor)
-                )
-        );
+                );
     }
 
     // TODO: help?

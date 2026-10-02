@@ -13,7 +13,7 @@ public record Signum(DensityFunction arg)
     private static final MapCodec<Signum> MAP_CODEC =
             RecordCodecBuilder.mapCodec((instance) ->
                     instance.group(
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument").forGetter(Signum::arg)
+                            DensityFunction.CODEC.fieldOf("argument").forGetter(Signum::arg)
                     ).apply(instance, Signum::new)
             );
 
@@ -34,10 +34,8 @@ public record Signum(DensityFunction arg)
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new Signum(arg.mapAll(visitor))
-        );
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new Signum(arg.mapAll(visitor));
     }
 
     @Override

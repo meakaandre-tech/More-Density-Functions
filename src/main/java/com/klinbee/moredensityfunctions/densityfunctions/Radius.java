@@ -26,10 +26,8 @@ public record Radius()
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new Radius()
-        );
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new Radius();
     }
 
     @Override

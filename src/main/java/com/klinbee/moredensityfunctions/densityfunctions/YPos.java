@@ -24,10 +24,8 @@ public record YPos()
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new YPos()
-        );
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new YPos();
     }
 
     @Override

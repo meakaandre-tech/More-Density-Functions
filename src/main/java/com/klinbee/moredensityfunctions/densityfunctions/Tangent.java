@@ -11,7 +11,7 @@ public record Tangent(DensityFunction arg)
         implements DensityFunction {
 
     private static final MapCodec<Tangent> MAP_CODEC = RecordCodecBuilder.mapCodec((instance) -> instance.group(
-                    DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument").forGetter(Tangent::arg)
+                    DensityFunction.CODEC.fieldOf("argument").forGetter(Tangent::arg)
             ).apply(instance, Tangent::new)
     );
 
@@ -28,12 +28,10 @@ public record Tangent(DensityFunction arg)
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new Tangent(
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new Tangent(
                         arg.mapAll(visitor)
-                )
-        );
+                );
     }
 
     // Due to periodic nature, I'm using global min/max (though tangent never hits these)

@@ -13,7 +13,7 @@ public record Sigmoid(DensityFunction arg)
     private static final MapCodec<Sigmoid> MAP_CODEC =
             RecordCodecBuilder.mapCodec((instance) ->
                     instance.group(
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument").forGetter(Sigmoid::arg)
+                            DensityFunction.CODEC.fieldOf("argument").forGetter(Sigmoid::arg)
                     ).apply(instance, Sigmoid::new)
             );
 
@@ -34,10 +34,8 @@ public record Sigmoid(DensityFunction arg)
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new Sigmoid(arg.mapAll(visitor))
-        );
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new Sigmoid(arg.mapAll(visitor));
     }
 
     @Override

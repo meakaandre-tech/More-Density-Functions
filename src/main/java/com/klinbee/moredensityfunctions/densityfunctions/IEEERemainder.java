@@ -14,8 +14,8 @@ public record IEEERemainder(DensityFunction numerator,
     private static final MapCodec<IEEERemainder> MAP_CODEC =
             RecordCodecBuilder.mapCodec((instance) ->
                     instance.group(
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("numerator").forGetter(IEEERemainder::numerator),
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("denominator").forGetter(IEEERemainder::denominator)
+                            DensityFunction.CODEC.fieldOf("numerator").forGetter(IEEERemainder::numerator),
+                            DensityFunction.CODEC.fieldOf("denominator").forGetter(IEEERemainder::denominator)
                     ).apply(instance, IEEERemainder::new)
             );
 
@@ -32,13 +32,11 @@ public record IEEERemainder(DensityFunction numerator,
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new IEEERemainder(
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new IEEERemainder(
                         numerator.mapAll(visitor),
                         denominator.mapAll(visitor)
-                )
-        );
+                );
     }
 
     // Due to periodic nature, I'm using global min/max

@@ -13,7 +13,7 @@ public record CubeRoot(DensityFunction arg)
     private static final MapCodec<CubeRoot> MAP_CODEC =
             RecordCodecBuilder.mapCodec((instance) ->
                     instance.group(
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument").forGetter(CubeRoot::arg)
+                            DensityFunction.CODEC.fieldOf("argument").forGetter(CubeRoot::arg)
                     ).apply(instance, CubeRoot::new)
             );
 
@@ -34,12 +34,10 @@ public record CubeRoot(DensityFunction arg)
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new CubeRoot(
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new CubeRoot(
                         arg.mapAll(visitor)
-                )
-        );
+                );
     }
 
     @Override

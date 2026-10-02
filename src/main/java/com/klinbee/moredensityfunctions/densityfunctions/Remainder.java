@@ -15,8 +15,8 @@ public record Remainder(DensityFunction numerator,
     private static final MapCodec<Remainder> MAP_CODEC =
             RecordCodecBuilder.mapCodec((instance) ->
                     instance.group(
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("numerator").forGetter(Remainder::numerator),
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("denominator").forGetter(Remainder::denominator)
+                            DensityFunction.CODEC.fieldOf("numerator").forGetter(Remainder::numerator),
+                            DensityFunction.CODEC.fieldOf("denominator").forGetter(Remainder::denominator)
                     ).apply(instance, Remainder::new)
             );
 
@@ -33,13 +33,11 @@ public record Remainder(DensityFunction numerator,
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new Remainder(
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new Remainder(
                         numerator.mapAll(visitor),
                         denominator.mapAll(visitor)
-                )
-        );
+                );
     }
 
     // Due to periodic nature, I'm using global min/max

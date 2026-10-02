@@ -13,7 +13,7 @@ public record HyperbolicTangent(DensityFunction arg)
     private static final MapCodec<HyperbolicTangent> MAP_CODEC =
             RecordCodecBuilder.mapCodec((instance) ->
                     instance.group(
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument").forGetter(HyperbolicTangent::arg)
+                            DensityFunction.CODEC.fieldOf("argument").forGetter(HyperbolicTangent::arg)
                     ).apply(instance, HyperbolicTangent::new)
             );
 
@@ -34,10 +34,8 @@ public record HyperbolicTangent(DensityFunction arg)
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new HyperbolicTangent(arg.mapAll(visitor))
-        );
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new HyperbolicTangent(arg.mapAll(visitor));
     }
 
     @Override

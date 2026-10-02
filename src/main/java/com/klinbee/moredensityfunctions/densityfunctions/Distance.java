@@ -73,20 +73,18 @@ public record Distance(DistanceMetric distanceMetric,
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
+    public DensityFunction mapChildren(Visitor visitor) {
 
         for (int i = 0; i < point1.length; i++) {
             point1[i].mapAll(visitor);
             point2[i].mapAll(visitor);
         }
 
-        return visitor.apply(
-                new Distance(
+        return new Distance(
                         distanceMetric,
                         point1,
                         point2
-                )
-        );
+                );
     }
 
     @Override

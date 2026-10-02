@@ -28,7 +28,7 @@ public class MoreDensityFunctionsConstants {
     /// Useful Codecs
     public static final Codec<Integer> COORD_CODEC_INT = Codec.intRange(XZ_MIN_INT, XZ_MAX_INT);
     public static final Codec<DensityFunction[]> DENSITY_FUNCTION_ARRAY_CODEC =
-            DensityFunction.HOLDER_HELPER_CODEC.listOf()
+            DensityFunction.CODEC.listOf()
                     .xmap(
                             list -> list.toArray(new DensityFunction[0]),
                             Arrays::asList

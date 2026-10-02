@@ -24,7 +24,7 @@ public record GappedGridSquareSpiral(int xSize,
                     ExtraCodecs.POSITIVE_INT.fieldOf("z_size").forGetter(GappedGridSquareSpiral::zSize),
                     ExtraCodecs.POSITIVE_INT.fieldOf("spacing").orElse(1).forGetter(GappedGridSquareSpiral::spacing),
                     DENSITY_FUNCTION_ARRAY_CODEC.fieldOf("grid_cell_args").forGetter(GappedGridSquareSpiral::gridCellArgs),
-                    DensityFunction.HOLDER_HELPER_CODEC.fieldOf("out_of_bounds_argument").orElse(DensityFunctions.constant(-1)).forGetter(GappedGridSquareSpiral::oobArg)
+                    DensityFunction.CODEC.fieldOf("out_of_bounds_argument").orElse(DensityFunctions.constant(-1)).forGetter(GappedGridSquareSpiral::oobArg)
             ).apply(instance, GappedGridSquareSpiral::create)
     );
 

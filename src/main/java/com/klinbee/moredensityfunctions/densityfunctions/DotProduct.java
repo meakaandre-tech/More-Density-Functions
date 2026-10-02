@@ -19,8 +19,8 @@ public record DotProduct(DensityFunction arg1,
     public static final MapCodec<DotProduct> MAP_CODEC =
             RecordCodecBuilder.mapCodec(instance ->
                     instance.group(
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument1").forGetter(DotProduct::arg1),
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument2").forGetter(DotProduct::arg2),
+                            DensityFunction.CODEC.fieldOf("argument1").forGetter(DotProduct::arg1),
+                            DensityFunction.CODEC.fieldOf("argument2").forGetter(DotProduct::arg2),
                             ExtraCodecs.NON_NEGATIVE_INT.fieldOf("step_x").orElse(0).forGetter(DotProduct::stepX),
                             ExtraCodecs.NON_NEGATIVE_INT.fieldOf("step_y").orElse(0).forGetter(DotProduct::stepY),
                             ExtraCodecs.NON_NEGATIVE_INT.fieldOf("step_z").orElse(0).forGetter(DotProduct::stepZ)
@@ -84,16 +84,14 @@ public record DotProduct(DensityFunction arg1,
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new DotProduct(
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new DotProduct(
                         arg1.mapAll(visitor),
                         arg2.mapAll(visitor),
                         stepX,
                         stepY,
                         stepZ
-                )
-        );
+                );
     }
 
     @Override

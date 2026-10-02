@@ -14,8 +14,8 @@ public record VectorAngle(DensityFunction arg1,
     private static final MapCodec<VectorAngle> MAP_CODEC =
             RecordCodecBuilder.mapCodec((instance) ->
                     instance.group(
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument1").forGetter(VectorAngle::arg1),
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument2").forGetter(VectorAngle::arg2)
+                            DensityFunction.CODEC.fieldOf("argument1").forGetter(VectorAngle::arg1),
+                            DensityFunction.CODEC.fieldOf("argument2").forGetter(VectorAngle::arg2)
                     ).apply(instance, VectorAngle::new)
             );
 
@@ -32,13 +32,11 @@ public record VectorAngle(DensityFunction arg1,
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new VectorAngle(
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new VectorAngle(
                         arg1.mapAll(visitor),
                         arg2.mapAll(visitor)
-                )
-        );
+                );
     }
 
     @Override

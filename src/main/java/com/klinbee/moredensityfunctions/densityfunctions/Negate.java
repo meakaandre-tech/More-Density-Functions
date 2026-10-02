@@ -12,7 +12,7 @@ public record Negate(DensityFunction arg)
     private static final MapCodec<Negate> MAP_CODEC =
             RecordCodecBuilder.mapCodec((instance) ->
                     instance.group(
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument").forGetter(Negate::arg)
+                            DensityFunction.CODEC.fieldOf("argument").forGetter(Negate::arg)
                     ).apply(instance, Negate::new)
             );
 
@@ -33,10 +33,8 @@ public record Negate(DensityFunction arg)
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new Negate(arg.mapAll(visitor))
-        );
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new Negate(arg.mapAll(visitor));
     }
 
     @Override

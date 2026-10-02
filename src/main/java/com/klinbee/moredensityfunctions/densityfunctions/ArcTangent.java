@@ -13,7 +13,7 @@ public record ArcTangent(DensityFunction arg)
     private static final MapCodec<ArcTangent> MAP_CODEC =
             RecordCodecBuilder.mapCodec((instance) ->
                     instance.group(
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument").forGetter(ArcTangent::arg)
+                            DensityFunction.CODEC.fieldOf("argument").forGetter(ArcTangent::arg)
                     ).apply(instance, ArcTangent::new)
             );
 
@@ -34,10 +34,8 @@ public record ArcTangent(DensityFunction arg)
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new ArcTangent(arg.mapAll(visitor))
-        );
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new ArcTangent(arg.mapAll(visitor));
     }
 
     @Override

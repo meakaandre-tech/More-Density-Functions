@@ -13,7 +13,7 @@ public record ArcSine(DensityFunction arg)
     private static final MapCodec<ArcSine> MAP_CODEC =
             RecordCodecBuilder.mapCodec((instance) ->
                     instance.group(
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument").forGetter(ArcSine::arg)
+                            DensityFunction.CODEC.fieldOf("argument").forGetter(ArcSine::arg)
                     ).apply(instance, ArcSine::new)
             );
 
@@ -34,10 +34,8 @@ public record ArcSine(DensityFunction arg)
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new ArcSine(arg.mapAll(visitor))
-        );
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new ArcSine(arg.mapAll(visitor));
     }
 
     @Override

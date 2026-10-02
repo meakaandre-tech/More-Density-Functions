@@ -13,7 +13,7 @@ public record Reciprocal(DensityFunction denominator)
     private static final MapCodec<Reciprocal> MAP_CODEC =
             RecordCodecBuilder.mapCodec((instance) ->
                     instance.group(
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("denominator").forGetter(Reciprocal::denominator)
+                            DensityFunction.CODEC.fieldOf("denominator").forGetter(Reciprocal::denominator)
                     ).apply(instance, Reciprocal::new)
             );
 
@@ -34,12 +34,10 @@ public record Reciprocal(DensityFunction denominator)
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new Reciprocal(
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new Reciprocal(
                         denominator.mapAll(visitor)
-                )
-        );
+                );
     }
 
     @Override

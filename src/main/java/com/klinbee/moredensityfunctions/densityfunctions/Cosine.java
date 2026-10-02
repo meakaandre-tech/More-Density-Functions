@@ -13,7 +13,7 @@ public record Cosine(DensityFunction arg)
     private static final MapCodec<Cosine> MAP_CODEC =
             RecordCodecBuilder.mapCodec((instance) ->
                     instance.group(
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument").forGetter(Cosine::arg)
+                            DensityFunction.CODEC.fieldOf("argument").forGetter(Cosine::arg)
                     ).apply(instance, Cosine::new)
             );
 
@@ -34,10 +34,8 @@ public record Cosine(DensityFunction arg)
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new Cosine(arg.mapAll(visitor))
-        );
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new Cosine(arg.mapAll(visitor));
     }
 
     // Due to periodic nature, I'm using global min/max

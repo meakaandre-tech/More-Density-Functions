@@ -17,7 +17,7 @@ public record Resolver(DensityFunction arg)
     private static final MapCodec<Resolver> MAP_CODEC =
             RecordCodecBuilder.mapCodec((instance) ->
                     instance.group(
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument").forGetter(Resolver::arg)
+                            DensityFunction.CODEC.fieldOf("argument").forGetter(Resolver::arg)
                     ).apply(instance, Resolver::new)
             );
 
@@ -39,6 +39,11 @@ public record Resolver(DensityFunction arg)
     @Override
     public void fillArray(double[] densities, ContextProvider applier) {
         applier.fillAllDirectly(densities, this);
+    }
+
+    @Override
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new Resolver(arg.mapAll(visitor));
     }
 
     @Override

@@ -26,10 +26,8 @@ public record Radius3D()
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new Radius3D()
-        );
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new Radius3D();
     }
 
     @Override

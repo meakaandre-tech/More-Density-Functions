@@ -24,10 +24,8 @@ public record ZPos()
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new ZPos()
-        );
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new ZPos();
     }
 
     @Override

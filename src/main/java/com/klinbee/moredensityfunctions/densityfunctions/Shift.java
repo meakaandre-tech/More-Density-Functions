@@ -15,10 +15,10 @@ public record Shift(DensityFunction arg,
     private static final MapCodec<Shift> MAP_CODEC =
             RecordCodecBuilder.mapCodec((instance) ->
                     instance.group(
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument").forGetter(Shift::arg),
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("shift_x").forGetter(Shift::shiftX),
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("shift_y").forGetter(Shift::shiftY),
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("shift_z").forGetter(Shift::shiftZ)
+                            DensityFunction.CODEC.fieldOf("argument").forGetter(Shift::arg),
+                            DensityFunction.CODEC.fieldOf("shift_x").forGetter(Shift::shiftX),
+                            DensityFunction.CODEC.fieldOf("shift_y").forGetter(Shift::shiftY),
+                            DensityFunction.CODEC.fieldOf("shift_z").forGetter(Shift::shiftZ)
                     ).apply(instance, Shift::new)
             );
 
@@ -50,15 +50,13 @@ public record Shift(DensityFunction arg,
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new Shift(
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new Shift(
                         arg.mapAll(visitor),
                         shiftX.mapAll(visitor),
                         shiftY.mapAll(visitor),
                         shiftZ.mapAll(visitor)
-                )
-        );
+                );
     }
 
     @Override

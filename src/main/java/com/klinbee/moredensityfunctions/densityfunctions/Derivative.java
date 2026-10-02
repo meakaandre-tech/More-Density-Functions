@@ -20,7 +20,7 @@ public record Derivative(DensityFunction arg,
     private static final MapCodec<Derivative> MAP_CODEC =
             RecordCodecBuilder.mapCodec((instance) ->
                     instance.group(
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument").forGetter(Derivative::arg),
+                            DensityFunction.CODEC.fieldOf("argument").forGetter(Derivative::arg),
                             DerivativeComponent.CODEC.fieldOf("component_x").orElse(DerivativeComponent.NONE).forGetter(Derivative::componentX),
                             DerivativeComponent.CODEC.fieldOf("component_y").orElse(DerivativeComponent.NONE).forGetter(Derivative::componentY),
                             DerivativeComponent.CODEC.fieldOf("component_z").orElse(DerivativeComponent.NONE).forGetter(Derivative::componentZ)
@@ -78,18 +78,16 @@ public record Derivative(DensityFunction arg,
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
+    public DensityFunction mapChildren(Visitor visitor) {
         componentX.direction.mapAll(visitor);
         componentY.direction.mapAll(visitor);
         componentZ.direction.mapAll(visitor);
-        return visitor.apply(
-                new Derivative(
+        return new Derivative(
                         arg.mapAll(visitor),
                         componentX,
                         componentY,
                         componentZ
-                )
-        );
+                );
     }
 
     @Override
@@ -118,7 +116,7 @@ public record Derivative(DensityFunction arg,
                 RecordCodecBuilder.create(instance ->
                         instance.group(
                                 ExtraCodecs.NON_NEGATIVE_INT.fieldOf("step").forGetter(DerivativeComponent::step),
-                                DensityFunction.HOLDER_HELPER_CODEC.fieldOf("direction").forGetter(DerivativeComponent::direction)
+                                DensityFunction.CODEC.fieldOf("direction").forGetter(DerivativeComponent::direction)
                         ).apply(instance, DerivativeComponent::new)
                 );
         static final DerivativeComponent NONE = new DerivativeComponent(0, DensityFunctions.constant(0));

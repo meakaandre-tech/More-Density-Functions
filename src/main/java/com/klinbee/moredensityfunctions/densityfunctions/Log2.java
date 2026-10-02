@@ -13,7 +13,7 @@ public record Log2(DensityFunction arg)
     private static final MapCodec<Log2> MAP_CODEC =
             RecordCodecBuilder.mapCodec((instance) ->
                     instance.group(
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument").forGetter(Log2::arg)
+                            DensityFunction.CODEC.fieldOf("argument").forGetter(Log2::arg)
                     ).apply(instance, Log2::new)
             );
 
@@ -34,12 +34,10 @@ public record Log2(DensityFunction arg)
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new Log2(
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new Log2(
                         arg.mapAll(visitor)
-                )
-        );
+                );
     }
 
     @Override

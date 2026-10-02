@@ -13,7 +13,7 @@ public record SquareRoot(DensityFunction arg)
     private static final MapCodec<SquareRoot> MAP_CODEC =
             RecordCodecBuilder.mapCodec((instance) ->
                     instance.group(
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument").forGetter(SquareRoot::arg)
+                            DensityFunction.CODEC.fieldOf("argument").forGetter(SquareRoot::arg)
                     ).apply(instance, SquareRoot::new)
             );
 
@@ -34,12 +34,10 @@ public record SquareRoot(DensityFunction arg)
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new SquareRoot(
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new SquareRoot(
                         arg.mapAll(visitor)
-                )
-        );
+                );
     }
 
     @Override

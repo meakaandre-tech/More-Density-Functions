@@ -16,7 +16,7 @@ public record Clamp(DensityFunction arg,
     private static final MapCodec<Clamp> MAP_CODEC =
             RecordCodecBuilder.mapCodec((instance) ->
                     instance.group(
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument").forGetter(Clamp::arg),
+                            DensityFunction.CODEC.fieldOf("argument").forGetter(Clamp::arg),
                             Codec.doubleRange(-Double.MAX_VALUE, Double.MAX_VALUE).fieldOf("min").forGetter(Clamp::min),
                             Codec.doubleRange(-Double.MAX_VALUE, Double.MAX_VALUE).fieldOf("max").forGetter(Clamp::max)
                     ).apply(instance, Clamp::create)
@@ -42,14 +42,12 @@ public record Clamp(DensityFunction arg,
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new Clamp(
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new Clamp(
                         arg.mapAll(visitor),
                         min,
                         max
-                )
-        );
+                );
     }
 
     @Override

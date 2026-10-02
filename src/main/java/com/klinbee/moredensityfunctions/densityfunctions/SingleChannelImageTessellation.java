@@ -59,14 +59,12 @@ public record SingleChannelImageTessellation(int xSize,
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new SingleChannelImageTessellation(
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new SingleChannelImageTessellation(
                         xSize,
                         zSize,
                         inflatedFrameData
-                )
-        );
+                );
     }
 
     // Min and Max u8 Values

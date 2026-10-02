@@ -13,7 +13,7 @@ public record Ceil(DensityFunction arg)
     private static final MapCodec<Ceil> MAP_CODEC =
             RecordCodecBuilder.mapCodec((instance) ->
                     instance.group(
-                            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument").forGetter(Ceil::arg)
+                            DensityFunction.CODEC.fieldOf("argument").forGetter(Ceil::arg)
                     ).apply(instance, Ceil::new)
             );
 
@@ -34,10 +34,8 @@ public record Ceil(DensityFunction arg)
     }
 
     @Override
-    public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(
-                new Ceil(arg.mapAll(visitor))
-        );
+    public DensityFunction mapChildren(Visitor visitor) {
+        return new Ceil(arg.mapAll(visitor));
     }
 
     @Override
