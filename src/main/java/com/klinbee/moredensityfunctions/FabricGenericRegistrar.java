@@ -6,7 +6,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.EnumMap;
 
@@ -26,7 +26,7 @@ public class FabricGenericRegistrar {
         Registry<MapCodec<? extends T>> registry = (Registry<MapCodec<? extends T>>) registries.get(registryKey);
 
         if (registry != null) {
-            ResourceLocation resourceLocation = ResourceLocation.fromNamespaceAndPath(MoreDensityFunctionsConstants.MOD_NAMESPACE, typedCodec.type());
+            Identifier resourceLocation = Identifier.fromNamespaceAndPath(MoreDensityFunctionsConstants.MOD_NAMESPACE, typedCodec.type());
             ResourceKey<MapCodec<? extends T>> resourceKey = ResourceKey.create(registry.key(), resourceLocation);
             Registry.register(registry, resourceKey, typedCodec.codec().codec());
         } else {
